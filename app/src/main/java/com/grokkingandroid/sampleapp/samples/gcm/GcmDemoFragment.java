@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -161,7 +163,27 @@ public class GcmDemoFragment extends DemoBaseFragment implements
             break;
          }
       } else if (view.getId() == R.id.btn_send_message) {
-         sendMessage();
+         new CountDownTimer(60000, 10000) {
+            public void onTick(long millisUntilFinished) {
+               if (millisUntilFinished >= 50000)
+                  sendMessage("hello");
+               else if (millisUntilFinished >= 40000)
+                  sendMessage("world");
+               else if (millisUntilFinished >= 30000)
+                  sendMessage("cse");
+               else if (millisUntilFinished >= 20000)
+                  sendMessage("110");
+               else if (millisUntilFinished >= 10000)
+                  sendMessage("software");
+               else sendMessage("engineering");
+
+            }
+
+            public void onFinish() {
+               //
+            }
+         }.start();
+         //sendMessage();
       } else if (view.getId() == R.id.btn_select_account) {
          startAccountSelector();
       }
@@ -201,11 +223,53 @@ public class GcmDemoFragment extends DemoBaseFragment implements
       getActivity().startService(regIntent);
    }
 
-   private void sendMessage() {
+   private void sendMessage(String word) {
       Intent msgIntent = new Intent(getActivity(), GcmIntentService.class);
       msgIntent.setAction(Constants.ACTION_ECHO);
       String msg;
+
+      //String[] words = {"hello", "world", "cse", "110", "software", "engineering"};
+
+      /*new CountDownTimer(60000, 10000) {
+         public void onTick(long millisUntilFinished) {
+            Intent msgIntent = new Intent(getActivity(), GcmIntentService.class);
+            String msg;
+            if (millisUntilFinished >= 50000)
+               msg = "hello";
+            else if (millisUntilFinished >= 40000)
+               msg = "world";
+            else if (millisUntilFinished >= 30000)
+               msg = "cse";
+            else if (millisUntilFinished >= 20000)
+               msg = "110";
+            else if (millisUntilFinished >= 10000)
+               msg = "software";
+            else
+               msg = "engineering";
+
+            String msgTxt = getString(R.string.msg_sent, msg);
+            Crouton.showText(getActivity(), msgTxt, Style.INFO);
+            msgIntent.putExtra(Constants.KEY_MESSAGE_TXT, msg);
+            getActivity().startService(msgIntent);
+         }
+
+         public void onFinish() {
+            //
+         }
+      }.start();*/
+
       if (!TextUtils.isEmpty(mTxtMsg.getText())) {
+         msg = word;
+         mTxtMsg.setText("");
+      }
+      else {
+         msg = word;
+      }
+      String msgTxt = getString(R.string.msg_sent, msg);
+      Crouton.showText(getActivity(), msgTxt, Style.INFO);
+      msgIntent.putExtra(Constants.KEY_MESSAGE_TXT, msg);
+      getActivity().startService(msgIntent);
+     /*if (!TextUtils.isEmpty(mTxtMsg.getText())) {
          msg = mTxtMsg.getText().toString();
          mTxtMsg.setText("");
       }
@@ -215,7 +279,7 @@ public class GcmDemoFragment extends DemoBaseFragment implements
       String msgTxt = getString(R.string.msg_sent, msg);
       Crouton.showText(getActivity(), msgTxt, Style.INFO);            
       msgIntent.putExtra(Constants.KEY_MESSAGE_TXT, msg);
-      getActivity().startService(msgIntent);
+      getActivity().startService(msgIntent);*/
    }
 
     /**
