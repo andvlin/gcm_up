@@ -436,9 +436,9 @@ public class CcsClient {
             try {
                 handleIncomingDataMessage(msg);
                 // Send ACK to CCS
-                String apiKey = "AIzaSyC_oi5v-QwyHirz_xbDzwcdcAROWrZ-xwc";
-                //Content content = createContent(msg);
-                //Post2Gcm.post(apiKey, content);
+                String apiKey = "AIzaSyA4yFlGg4gwNu6MfNiun2YCjv54AI6m4kE";
+                Content content = createContent(msg);
+                Post2Gcm.post(apiKey, content);
                 String ack = createJsonAck(msg.getFrom(), msg.getMessageId());
                 send(ack);
             }
@@ -489,16 +489,17 @@ public class CcsClient {
 
     }
     }
-   /* public static Content createContent(CcsMessage msg ) {
+    public static Content createContent(CcsMessage msg ) {
         Content c = new Content();
 
         //c.addRegId("APA91bGNKqkUQsqv3-Yjh2f84U8Z9v4z6hQ1XUy2g9pDztwGcB28SITCZFBPKgUGVJOvu-oYUyt--fdKiEuxq45vJRZjPYrvYUXQOe9Q0xmBpwofNUTjVNitQW3A1D16rlN0xeoszsZa");
        // c.addRegId("APA91bGtjDTQ3SAb69VfzW6FaBy6Wq-5KqX9T1qu7LX-DKHu8FNpqzgaoZ8oR4OQ8fRmues4q3rW7FgyrSB19l4RiTiIPyHNHjGXy3VpbbxlmgVZEmrTeO7uKDg0NRNHvPNt9VK9K9Ol");
         System.out.println("herhehrehr");
-        c.addRegId("APA91bGB-ZbeyCtLP_QRNQE5zu4Y-1LgRlTFiIMh2vDrhtgVwL5vTo5DYiE_YFo4ftOjxk4Nihykt_LSTPL9T_7FX64I7EQoe-l_eQ_4-T36BwAdOgAioktNUE1fwFoaPe6fdzQ1Aayx");
+        //String[] words = {};
+        c.addRegId("APA91bGY7hvFfZS1riUaxBqJqVyajz3hqzycl9ARHlGggq4YJk0XoLbd8AHr8nVIN8zy4DlexLAy7VX687_7nkZsUmDV1yRhoYYWHDh20e_6OEQyauThhqqx1X3QlD6RFj3he-c10oGy");
             String str = msg.getPayload().get("message");
         c.createData(str, "popop");
 
         return c;
-    }*/
+    }
 }
